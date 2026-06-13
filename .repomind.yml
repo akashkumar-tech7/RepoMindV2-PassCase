@@ -1,31 +1,43 @@
+# ──────────────────────────────────────────────────────────────────────
 # RepoMind V2 Configuration — Happy-Path Test Repo
+# Docs: https://github.com/repomind/repomind/blob/main/projectdocs/ONBOARDING.md
+# ──────────────────────────────────────────────────────────────────────
 
-# Mode: 'review' = HITL (pause for human approval before merge)
-#       'auto'   = Auto-merge if all checks pass (no human)
+# Mode:
+#   auto_fix → Open fix PRs (still needs human merge unless hitl_required=false)
+#   dry_run  → Only post comments, no PRs
+#   disabled → Ignore this repo
 mode: auto_fix
 
-# Files RepoMind is allowed to modify
-allowed_paths:
-  - "src/**/*.py"
-  - "tests/**/*.py"
-  - "*.py"
-  - "requirements.txt"
+# Human-In-The-Loop:
+#   true  → Always wait for human approval before merge (SAFE, recommended)
+#   false → Auto-merge if all CI checks pass
+hitl_required: true
 
-# Failure types RepoMind will attempt to fix
-allowed_failures:
-  - import_error
-  - module_not_found
-  - syntax_error
-  - name_error
-  - test_failure
-  - assertion_error
+# ─── Policy ───────────────────────────────────────────────────────────
+policy:
+  allowed_failure_types:
+    - import_error
+    - module_not_found
+    - syntax_error
+    - name_error
+    - test_failure
+    - assertion_error
+    - dependency_error
+  max_risk_level: low        # low | medium | high
+  min_confidence: 0.7        # 0.0 – 1.0  (reject fixes below this confidence)
 
-# Email recipients for notifications
-notification_emails:
-  - a76059142@gmail.com
-
-# Optional: max attempts before giving up
-max_fix_attempts: 2
-
-# Optional: verify CI passes after merge (enables auto-rollback)
-verify_after_merge: true
+# ─── Notifications ─────────────────────────────────────────────────────
+# These emails OVERRIDE the global admin (NOTIFICATION_EMAILS env var).
+# Set enabled:false to silence all RepoMind emails for this repo.
+notifications:
+  enabled: true
+  emails:
+    - a76059142@gmail.com
+  events:
+    ci_failed: true
+    pr_review_needed: true
+    pr_merged: true
+    pr_rejected: true
+    rollback: true
+    pipeline_error: true
