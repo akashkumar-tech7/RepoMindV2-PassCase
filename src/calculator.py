@@ -1,5 +1,5 @@
 """A simple calculator module used for RepoMind testing."""
-import pandas
+import numpy
 
 def add(a: int, b: int) -> int:
     """Return the sum of two integers."""
