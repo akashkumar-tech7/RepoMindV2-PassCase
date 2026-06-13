@@ -1,0 +1,31 @@
+# RepoMind V2 Configuration — Happy-Path Test Repo
+
+# Mode: 'review' = HITL (pause for human approval before merge)
+#       'auto'   = Auto-merge if all checks pass (no human)
+mode: review
+
+# Files RepoMind is allowed to modify
+allowed_paths:
+  - "src/**/*.py"
+  - "tests/**/*.py"
+  - "*.py"
+  - "requirements.txt"
+
+# Failure types RepoMind will attempt to fix
+allowed_failures:
+  - import_error
+  - module_not_found
+  - syntax_error
+  - name_error
+  - test_failure
+  - assertion_error
+
+# Email recipients for notifications
+notification_emails:
+  - a76059142@gmail.com
+
+# Optional: max attempts before giving up
+max_fix_attempts: 2
+
+# Optional: verify CI passes after merge (enables auto-rollback)
+verify_after_merge: true
