@@ -2,7 +2,7 @@
 
 # Mode: 'review' = HITL (pause for human approval before merge)
 #       'auto'   = Auto-merge if all checks pass (no human)
-mode: auto
+mode: auto_fix
 
 # Files RepoMind is allowed to modify
 allowed_paths:
